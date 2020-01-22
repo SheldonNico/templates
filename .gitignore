@@ -1,3 +1,6 @@
 target
 tags*
 build
+*.o
+*.a
+*.so
