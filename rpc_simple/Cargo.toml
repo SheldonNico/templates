@@ -1,0 +1,30 @@
+[package]
+name = "rpc_simple"
+version = "0.1.0"
+authors = ["xi.nie <xi.nie@outlook.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[[bin]] # Bin to run the HelloWorld gRPC server
+name = "helloworld-server"
+path = "src/server.rs"
+
+[[bin]] # Bin to run the HelloWorld gRPC client
+name = "helloworld-client"
+path = "src/client.rs"
+
+[[bin]]
+name = "subpub"
+path = "src/subpub.rs"
+
+[lib]
+name = "service"
+path = "src/lib.rs"
+
+[dependencies]
+futures = "0.3"
+serde = { version = "1.0" }
+tarpc = { version = "0.20", features = ["full"] }
+tokio = { version = "0.2", features = ["full"] }
+tokio-serde = { version = "0.6", features = ["json"] }
+env_logger = "0.7.1"
