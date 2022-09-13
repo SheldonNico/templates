@@ -1,6 +1,8 @@
 target
 tags*
 build
+/shared
+.mypy_cache
 *.o
 *.a
 *.so
