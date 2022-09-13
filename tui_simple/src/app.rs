@@ -72,23 +72,23 @@ impl Default for Status {
 }
 
 macro_rules! impl_app {
-    ($cls:ty, $map:expr, [ $( ($name:ident, $kind:ty) ),* ] ) => { paste::item! {
+    ($cls:ty, $map:ident, [ $( ($name:ident, $kind:ty) ),* ] ) => { paste::item! {
         impl $cls {
         $(
             fn $name(&self) -> &$kind {
-                let ptr: *const c_void = *$map.get(stringify!($name)).unwrap();
+                let ptr: *const c_void = *self.$map.get(stringify!($name)).unwrap();
                 unsafe { & *(ptr as *const $kind) }
             }
 
             fn [<$name _mut>](&mut self) -> &mut $kind {
-                let ptr: *mut c_void = *$map.get(stringify!($name)).unwrap();
+                let ptr: *mut c_void = *self.$map.get(stringify!($name)).unwrap();
                 unsafe { &mut *(ptr as *mut $kind) }
             }
         )*
 
         unsafe fn drop_map(&mut self) {
             $(
-                let ptr: *mut c_void = *$map.get(stringify!($name)).unwrap();
+                let ptr: *mut c_void = *self.$map.get(stringify!($name)).unwrap();
                 let ptr: *mut $kind = unsafe { ptr as *mut $kind };
                 { ptr.drop_in_place(); }
             )*
@@ -133,7 +133,7 @@ pub struct App {
 }
 
 impl_app!(
-    App, self.widgets,
+    App, widgets,
     [
         (assets, IEmpty), (positions, IEmpty), (orders, IEmpty),
         (trades, ITable), (logs, IParagraph)
